@@ -69,15 +69,25 @@ exports.replyInquiry = async (req, res) => {
 
     if (smtpUser && smtpUser !== 'test@gmail.com' && smtpPass && smtpPass !== 'testpass') {
       try {
-        const transporter = nodemailer.createTransport({
-          host: smtpHost,
-          port: smtpPort,
-          secure: smtpPort === 465, // true for 465, false for other ports
+        const transporterOpts = {
           auth: {
             user: smtpUser,
             pass: smtpPass
+          },
+          tls: {
+            rejectUnauthorized: false
           }
-        });
+        };
+
+        if (smtpHost && smtpHost.includes('gmail.com')) {
+          transporterOpts.service = 'gmail';
+        } else {
+          transporterOpts.host = smtpHost;
+          transporterOpts.port = smtpPort;
+          transporterOpts.secure = smtpPort === 465;
+        }
+
+        const transporter = nodemailer.createTransport(transporterOpts);
 
         await transporter.sendMail({
           from: smtpFrom,
