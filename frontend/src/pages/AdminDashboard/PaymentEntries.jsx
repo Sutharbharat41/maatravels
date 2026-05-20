@@ -18,6 +18,7 @@ const PaymentEntries = () => {
   const [month, setMonth] = useState('January');
   const [year, setYear] = useState(new Date().getFullYear());
   const [selectedVehicleId, setSelectedVehicleId] = useState('');
+  const [selectedClientId, setSelectedClientId] = useState('');
   const [vehicleNo, setVehicleNo] = useState('');
   const [clientName, setClientName] = useState(''); // maps to vehicle_name
   const [pan, setPan] = useState('');
@@ -96,6 +97,7 @@ const PaymentEntries = () => {
 
   const handleVehicleSelect = (vehicleId) => {
     setSelectedVehicleId(vehicleId);
+    setSelectedClientId(''); // Clear client dropdown to avoid confusion
     const vehicle = vehicles.find(v => v.id === vehicleId);
     if (vehicle) {
       setVehicleNo(vehicle.number);
@@ -105,6 +107,7 @@ const PaymentEntries = () => {
       if (matchedClient) {
         setClientName(matchedClient.client_name);
         setPan(matchedClient.pan_number || '');
+        setSelectedClientId(matchedClient.id);
       } else {
         setClientName('Company Shuttle Rental');
         setPan('');
@@ -116,10 +119,50 @@ const PaymentEntries = () => {
     }
   };
 
+  const handleClientSelect = (clientId) => {
+    setSelectedClientId(clientId);
+    setSelectedVehicleId(''); // Clear fleet dropdown to avoid confusion
+    const client = clients.find(c => c.id === clientId);
+    if (client) {
+      setVehicleNo(client.vehicle_no);
+      setClientName(client.client_name);
+      setPan(client.pan_number || '');
+    } else {
+      setVehicleNo('');
+      setClientName('');
+      setPan('');
+    }
+  };
+
+  const handleVehicleNoChange = (val) => {
+    setVehicleNo(val);
+    if (!val) return;
+    
+    // Normalize and search clients
+    const cleanVal = val.replace(/\s+/g, '').toLowerCase();
+    const matchedClient = clients.find(c => c.vehicle_no.replace(/\s+/g, '').toLowerCase() === cleanVal);
+    if (matchedClient) {
+      setClientName(matchedClient.client_name);
+      setPan(matchedClient.pan_number || '');
+      setSelectedClientId(matchedClient.id);
+      setSelectedVehicleId('');
+    } else {
+      // Check if matches a fleet vehicle
+      const matchedVehicle = vehicles.find(v => v.number.replace(/\s+/g, '').toLowerCase() === cleanVal);
+      if (matchedVehicle) {
+        setSelectedVehicleId(matchedVehicle.id);
+        setSelectedClientId('');
+        setClientName('Company Shuttle Rental');
+        setPan('');
+      }
+    }
+  };
+
   const handleOpenAdd = () => {
     setEditingId(null);
     setBillNumber(`BILL-${Date.now().toString().slice(-6)}`);
     setSelectedVehicleId('');
+    setSelectedClientId('');
     setVehicleNo('');
     setClientName('');
     setPan('');
@@ -145,6 +188,10 @@ const PaymentEntries = () => {
     // Find matching vehicle
     const matchV = vehicles.find(v => v.number === p.vehicle_number);
     setSelectedVehicleId(matchV ? matchV.id : '');
+
+    // Find matching client
+    const matchC = clients.find(c => c.vehicle_no === p.vehicle_number);
+    setSelectedClientId(matchC ? matchC.id : '');
     
     setBillNumber(p.bill_number);
     setVehicleNo(p.vehicle_number);
@@ -328,8 +375,8 @@ const PaymentEntries = () => {
 
             <form onSubmit={handleFormSubmit} className="space-y-6">
               
-              {/* Row 1: Bill Number and Vehicle Registration Number (Required fields) */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              {/* Row 1: Bill Number, Fleet Vehicle, Hired Client, and Vehicle Reg Number */}
+              <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
                 <div>
                   <label className="block text-xs font-bold uppercase text-slate-500 mb-1">Bill Number *</label>
                   <input
@@ -353,12 +400,23 @@ const PaymentEntries = () => {
                   </select>
                 </div>
                 <div>
+                  <label className="block text-xs font-bold uppercase text-slate-500 mb-1">Select Hired Client</label>
+                  <select
+                    value={selectedClientId}
+                    onChange={(e) => handleClientSelect(e.target.value)}
+                    className="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white/50 dark:bg-slate-900/50 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 text-slate-800 dark:text-slate-100"
+                  >
+                    <option value="">-- Choose client owner --</option>
+                    {clients.map(c => <option key={c.id} value={c.id}>{c.client_name} ({c.vehicle_no})</option>)}
+                  </select>
+                </div>
+                <div>
                   <label className="block text-xs font-bold uppercase text-slate-500 mb-1">Vehicle Reg Number *</label>
                   <input
                     type="text"
                     required
                     value={vehicleNo}
-                    onChange={(e) => setVehicleNo(e.target.value)}
+                    onChange={(e) => handleVehicleNoChange(e.target.value)}
                     placeholder="e.g. WB 02 B 1234"
                     className="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white/50 dark:bg-slate-900/50 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 text-slate-800 dark:text-slate-100"
                   />
