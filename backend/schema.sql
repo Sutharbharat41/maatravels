@@ -109,9 +109,9 @@ CREATE INDEX IF NOT EXISTS idx_payments_vehicle_number ON payments(vehicle_numbe
 -- Enable RLS and setup bypass policies or public access policy for testing,
 -- but since we query from backend server with full admin/service role, 
 -- backend bypasses RLS if using service role, or we can enable open access for simplicity:
--- ALTER TABLE users DISABLE ROW LEVEL SECURITY;
--- ALTER TABLE vehicles DISABLE ROW LEVEL SECURITY;
--- ALTER TABLE clients DISABLE ROW LEVEL SECURITY;
--- ALTER TABLE contracts DISABLE ROW LEVEL SECURITY;
--- ALTER TABLE payments DISABLE ROW LEVEL SECURITY;
--- ALTER TABLE inquiries DISABLE ROW LEVEL SECURITY;
+ALTER TABLE users DISABLE ROW LEVEL SECURITY;
+ALTER TABLE vehicles DISABLE ROW LEVEL SECURITY;
+ALTER TABLE clients DISABLE ROW LEVEL SECURITY;
+ALTER TABLE contracts DISABLE ROW LEVEL SECURITY;
+ALTER TABLE payments DISABLE ROW LEVEL SECURITY;
+ALTER TABLE inquiries DISABLE ROW LEVEL SECURITY;

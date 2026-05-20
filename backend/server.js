@@ -98,3 +98,4 @@ app.listen(PORT, () => {
   console.log(`MAA Travels Server running on port ${PORT}`);
   console.log(`Database Status: ${db.isMock ? 'WARNING: Running in Local Fallback Mock mode.' : 'Success: Running on Supabase.'}`);
 });
+// Nodemon trigger change
