@@ -30,7 +30,7 @@ const Contact = () => {
     } else if (serviceQuery) {
       initialMessage = `Hello, I would like to get a quote and more information regarding your service: "${serviceQuery}".`;
     }
-    
+
     if (initialMessage) {
       setFormData(prev => ({ ...prev, message: initialMessage }));
     }
@@ -81,7 +81,7 @@ const Contact = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-16">
-      
+
       {/* Page Header */}
       <div className="text-center max-w-3xl mx-auto space-y-4">
         <h1 className="text-4xl sm:text-5xl font-extrabold text-slate-800 dark:text-white tracking-tight">Contact Us</h1>
@@ -91,25 +91,31 @@ const Contact = () => {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-        
+
         {/* Contact Info Details (Col 5) */}
         <div className="lg:col-span-5 space-y-8 flex flex-col justify-between">
-          
+
           <div className="space-y-6">
             <h2 className="text-2xl font-bold text-slate-800 dark:text-white">Our Head Office</h2>
             <p className="text-slate-600 dark:text-slate-400 text-sm">
               We look forward to serving your transportation needs. Stop by our main administrative hub or contact our booking line.
             </p>
-            
+
             <div className="space-y-4 pt-4">
               <div className="flex items-start space-x-4">
                 <div className="p-3 bg-primary-50 dark:bg-primary-950/20 text-primary-600 dark:text-primary-400 rounded-xl">
                   <MapPin size={20} />
                 </div>
                 <div>
-                  <span className="block font-bold text-slate-800 dark:text-white text-sm">Address</span>
+                  <span className="block font-bold text-slate-800 dark:text-white text-sm">Registered Office</span>
                   <span className="text-slate-500 dark:text-slate-400 text-xs">
-                    123 Travel Enclave, Corporate Sector V, Salt Lake, Kolkata, West Bengal - 700091
+                    2/68 SHREEJI TENAMENT NR CK PRAJAPATI SCHOOL GORWA VADODARA-390016 GUJARAT
+                  </span>
+                </div>
+                <div>
+                  <span className="block font-bold text-slate-800 dark:text-white text-sm">Working Office</span>
+                  <span className="text-slate-500 dark:text-slate-400 text-xs">
+                    Iocl maingate circle, gujarat refinery, Gujarat 391320
                   </span>
                 </div>
               </div>
@@ -120,7 +126,7 @@ const Contact = () => {
                 </div>
                 <div>
                   <span className="block font-bold text-slate-800 dark:text-white text-sm">Phone Line</span>
-                  <span className="text-slate-500 dark:text-slate-400 text-xs">+91 9876543210</span>
+                  <span className="text-slate-500 dark:text-slate-400 text-xs">+91 9925223472, +91 8980616952</span>
                 </div>
               </div>
 
@@ -130,7 +136,7 @@ const Contact = () => {
                 </div>
                 <div>
                   <span className="block font-bold text-slate-800 dark:text-white text-sm">Email Inquiries</span>
-                  <span className="text-slate-500 dark:text-slate-400 text-xs">info@maatravels.com</span>
+                  <span className="text-slate-500 dark:text-slate-400 text-xs">kanuvaghela486@gmail.com</span>
                 </div>
               </div>
             </div>
@@ -140,7 +146,7 @@ const Contact = () => {
           <div className="w-full h-64 rounded-3xl overflow-hidden border border-slate-200/50 dark:border-slate-800/50 shadow-md">
             <iframe
               title="MAA Travels HQ Location Map"
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3684.0673418579566!2d88.42940251500293!3d22.576579285181773!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a0275ade5d34ff7%3A0xa19f9f9ad72023cb!2sSector%20V%2C%20Salt%20Lake%20City%2C%20Kolkata%2C%20West%20Bengal!5e0!3m2!1sen!2sin!4v1653048900000!5m2!1sen!2sin"
+              src="https://www.google.com/maps?q=22.3646848,73.1302599&z=17&output=embed"
               width="100%"
               height="100%"
               style={{ border: 0 }}

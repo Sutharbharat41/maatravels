@@ -22,7 +22,7 @@ const PaymentEntries = () => {
   const [vehicleNo, setVehicleNo] = useState('');
   const [clientName, setClientName] = useState(''); // maps to vehicle_name
   const [pan, setPan] = useState('');
-  
+
   // Amounts
   const [basicAmount, setBasicAmount] = useState(0);
   const [commissionPct, setCommissionPct] = useState(5);
@@ -33,7 +33,7 @@ const PaymentEntries = () => {
   const [totalAmount, setTotalAmount] = useState(0);
   const [otherDeductions, setOtherDeductions] = useState(0); // maps to deductions
   const [netPay, setNetPay] = useState(0); // maps to net_to_pay
-  
+
   const [status, setStatus] = useState('Pending'); // maps to paid_status
   const [notes, setNotes] = useState('');
 
@@ -41,7 +41,7 @@ const PaymentEntries = () => {
     'January', 'February', 'March', 'April', 'May', 'June',
     'July', 'August', 'September', 'October', 'November', 'December'
   ];
-  
+
   const yearsList = [];
   const currentYr = new Date().getFullYear();
   for (let y = currentYr - 2; y <= currentYr + 5; y++) {
@@ -101,7 +101,7 @@ const PaymentEntries = () => {
     const vehicle = vehicles.find(v => v.id === vehicleId);
     if (vehicle) {
       setVehicleNo(vehicle.number);
-      
+
       // Attempt to find client name matching this vehicle number
       const matchedClient = clients.find(c => c.vehicle_no.replace(/\s+/g, '').toLowerCase() === vehicle.number.replace(/\s+/g, '').toLowerCase());
       if (matchedClient) {
@@ -137,7 +137,7 @@ const PaymentEntries = () => {
   const handleVehicleNoChange = (val) => {
     setVehicleNo(val);
     if (!val) return;
-    
+
     // Normalize and search clients
     const cleanVal = val.replace(/\s+/g, '').toLowerCase();
     const matchedClient = clients.find(c => c.vehicle_no.replace(/\s+/g, '').toLowerCase() === cleanVal);
@@ -184,7 +184,7 @@ const PaymentEntries = () => {
 
   const handleOpenEdit = (p) => {
     setEditingId(p.id);
-    
+
     // Find matching vehicle
     const matchV = vehicles.find(v => v.number === p.vehicle_number);
     setSelectedVehicleId(matchV ? matchV.id : '');
@@ -192,7 +192,7 @@ const PaymentEntries = () => {
     // Find matching client
     const matchC = clients.find(c => c.vehicle_no === p.vehicle_number);
     setSelectedClientId(matchC ? matchC.id : '');
-    
+
     setBillNumber(p.bill_number);
     setVehicleNo(p.vehicle_number);
     setClientName(p.vehicle_name);
@@ -254,7 +254,7 @@ const PaymentEntries = () => {
 
   return (
     <div className="space-y-6">
-      
+
       {/* Header and Add Button */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
@@ -319,11 +319,10 @@ const PaymentEntries = () => {
                       <span className="font-extrabold text-slate-800 dark:text-white block">Rs. {p.net_to_pay}</span>
                     </td>
                     <td className="p-4">
-                      <span className={`inline-flex px-2 py-0.5 rounded text-[10px] font-bold ${
-                        p.paid_status === 'Paid'
+                      <span className={`inline-flex px-2 py-0.5 rounded text-[10px] font-bold ${p.paid_status === 'Paid'
                           ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400'
                           : 'bg-amber-500/10 text-amber-600 dark:text-amber-400'
-                      }`}>
+                        }`}>
                         {p.paid_status}
                       </span>
                       {p.notes && <span className="block text-[9px] text-slate-400 truncate max-w-[120px]">{p.notes}</span>}
@@ -354,9 +353,9 @@ const PaymentEntries = () => {
       {showModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
           <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onClick={() => setShowModal(false)}></div>
-          
+
           <div className="relative bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-850 rounded-3xl p-6 sm:p-8 w-full max-w-3xl shadow-2xl space-y-6 overflow-y-auto max-h-[90vh]">
-            
+
             <div className="flex items-center justify-between">
               <h3 className="text-lg font-bold text-slate-800 dark:text-white">
                 {editingId ? 'Edit Payment Entry' : 'Log New Payment Entry'}
@@ -374,7 +373,7 @@ const PaymentEntries = () => {
             )}
 
             <form onSubmit={handleFormSubmit} className="space-y-6">
-              
+
               {/* Row 1: Bill Number, Fleet Vehicle, Hired Client, and Vehicle Reg Number */}
               <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
                 <div>
@@ -517,7 +516,7 @@ const PaymentEntries = () => {
                     className="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white/50 dark:bg-slate-900/50 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 text-slate-800 dark:text-slate-100"
                   />
                 </div>
-                
+
                 {/* Math calculation review card */}
                 <div className="sm:col-span-2 p-4 bg-primary-50 dark:bg-slate-850 rounded-2xl border border-primary-200/50 dark:border-slate-800 flex justify-around text-center text-xs">
                   <div>

@@ -12,7 +12,7 @@ const Navbar = () => {
     { name: 'Home', path: '/' },
     { name: 'About Us', path: '/about' },
     { name: 'Services', path: '/services' },
-    { name: 'Vehicle Fleet', path: '/fleet' },
+    { name: 'Vehicles', path: '/fleet' },
     { name: 'Contact Us', path: '/contact' },
   ];
 
@@ -22,18 +22,24 @@ const Navbar = () => {
     <nav className="sticky top-0 z-50 glass-nav">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 sm:h-20">
-          
+
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2 group">
-            <div className="p-2 bg-primary-600 rounded-lg text-white group-hover:bg-primary-700 transition-colors">
-              <Car size={24} />
+            <div className="flex items-center justify-center">
+              <img
+                src="/LOGO_MAIN.png"
+                alt="MAA TRAVELS Logo"
+                className="w-16 h-16 object-contain"
+              />
             </div>
+
             <div className="flex flex-col">
               <span className="text-xl sm:text-2xl font-extrabold tracking-wider text-slate-800 dark:text-white group-hover:text-primary-600 transition-colors">
                 MAA TRAVELS
               </span>
+
               <span className="text-[10px] text-slate-500 dark:text-slate-400 font-medium -mt-1 tracking-widest uppercase">
-                Premium Fleet Services
+                Premium Vehicle Services
               </span>
             </div>
           </Link>
@@ -44,11 +50,10 @@ const Navbar = () => {
               <Link
                 key={link.name}
                 to={link.path}
-                className={`text-sm font-semibold transition-all hover:text-primary-600 ${
-                  isActive(link.path)
-                    ? 'text-primary-600 dark:text-primary-400 scale-105'
-                    : 'text-slate-600 dark:text-slate-300'
-                }`}
+                className={`text-sm font-semibold transition-all hover:text-primary-600 ${isActive(link.path)
+                  ? 'text-primary-600 dark:text-primary-400 scale-105'
+                  : 'text-slate-600 dark:text-slate-300'
+                  }`}
               >
                 {link.name}
               </Link>
@@ -67,10 +72,10 @@ const Navbar = () => {
 
             <Link
               to="/admin/login"
-              className="flex items-center space-x-1.5 px-4.5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-900 dark:bg-slate-800 dark:hover:bg-slate-700 text-white text-xs font-semibold shadow-md btn-premium"
+              className="flex items-center space-x-1 px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-900 dark:bg-slate-800 dark:hover:bg-slate-500 text-white text-xs font-semibold shadow-md btn-premium"
             >
               <ShieldAlert size={14} />
-              <span>Admin Access</span>
+              <span>Login</span>
             </Link>
           </div>
 
@@ -103,11 +108,10 @@ const Navbar = () => {
                 key={link.name}
                 to={link.path}
                 onClick={() => setIsOpen(false)}
-                className={`block px-4 py-3 rounded-xl text-base font-semibold ${
-                  isActive(link.path)
-                    ? 'bg-primary-50 dark:bg-primary-950/20 text-primary-600 dark:text-primary-400'
-                    : 'text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800'
-                }`}
+                className={`block px-4 py-3 rounded-xl text-base font-semibold ${isActive(link.path)
+                  ? 'bg-primary-50 dark:bg-primary-950/20 text-primary-600 dark:text-primary-400'
+                  : 'text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800'
+                  }`}
               >
                 {link.name}
               </Link>

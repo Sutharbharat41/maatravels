@@ -11,40 +11,41 @@ const Home = () => {
   ];
 
   const categories = [
-    { title: 'Executive Sedans', desc: 'Ideal for airport runs and corporate executives. Premium comfort.', image: 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&q=80&w=600' },
-    { title: 'Spacious SUVs', desc: 'Comfortable outstation road trips and client transport. High road presence.', image: 'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&q=80&w=600' },
-    { title: 'Tempo Travellers', desc: 'Perfect for casual family events and corporate group tours.', image: 'https://images.unsplash.com/photo-1600706432502-75a0e286b92b?auto=format&fit=crop&q=80&w=600' },
+    { title: 'Executive Sedans', desc: 'Ideal for airport runs and corporate executives. Premium comfort.', image: '/Sedan.jpg' },
+    { title: 'Spacious SUVs', desc: 'Comfortable outstation road trips and client transport. High road presence.', image: '/suv.jpg' },
+    { title: 'Tempo Travellers', desc: 'Perfect for casual family events and corporate group tours.', image: '/tempo.jpg' },
+    { title: 'Premium Buses', desc: 'Luxury buses for large groups and corporate events. High comfort.', image: '/volvo_bus.jpg' },
   ];
 
   return (
     <div className="space-y-24 pb-20">
-      
+
       {/* Hero Section */}
       <section className="relative min-h-[85vh] flex items-center justify-center bg-slate-950 overflow-hidden">
         {/* Background Image with Dark Gradient Overlay */}
         <div className="absolute inset-0 z-0">
           <img
-            src="https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?auto=format&fit=crop&q=80&w=1920"
+            src="/Hero_Page.png"
             alt="Corporate Transport Hero"
-            className="w-full h-full object-cover opacity-35"
+            className="w-full h-full object-cover opacity-100"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-900/90 to-transparent"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-900/40 to-transparent"></div>
         </div>
 
         {/* Hero Content */}
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full text-left">
           <div className="max-w-3xl space-y-6 md:space-y-8 animate-slide-up">
             <span className="inline-flex items-center px-3.5 py-1.5 rounded-full text-xs font-semibold bg-primary-500/10 text-primary-400 border border-primary-500/20">
-              Reliable Vehicle Hiring & Logistics
+              Reliable Vehicle Services
             </span>
-            <h1 className="text-4xl sm:text-6xl font-extrabold text-white tracking-tight leading-none">
+            <h1 className="text-4xl sm:text-6xl font-extrabold text-white tracking-tight leading-none hover:text-primary-500 transition-colors duration-300">
               MAA TRAVELS
             </h1>
             <p className="text-xl sm:text-2xl font-light text-slate-300">
-              “Professional Vehicle Hiring Services for Corporate & Personal Travel”
+              “Professional Vehicle Services for Corporate & Personal Travel”
             </p>
             <p className="text-base text-slate-400 max-w-xl">
-              We specialize in employee transportation, premium corporate rentals, airport logistics, monthly contracts, and outstation trips with commercial compliance and safety assurance.
+              We specialize in premium corporate rentals, monthly contracts, and outstation trips with safety assurance.
             </p>
             <div className="flex flex-wrap gap-4 pt-4">
               <Link
@@ -73,7 +74,7 @@ const Home = () => {
               <HeartHandshake size={24} />
             </div>
             <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-800 dark:text-white">
-              Pioneering Logistics for Travel Needs
+              Ride with Safety, Reach with Confidence
             </h2>
             <p className="text-slate-600 dark:text-slate-300 leading-relaxed">
               MAA TRAVELS has been a leading vehicle hiring agency, building long-standing contracts with corporate clients, business executives, and private individuals. We pride ourselves on punctuality, safety, and a highly versatile fleet.
@@ -91,7 +92,7 @@ const Home = () => {
           <div className="relative">
             <div className="absolute -top-4 -left-4 w-72 h-72 bg-primary-400/10 rounded-3xl blur-3xl -z-10"></div>
             <img
-              src="https://images.unsplash.com/photo-1506015391300-4802dc74de2e?auto=format&fit=crop&q=80&w=800"
+              src="/page2.png"
               alt="Hired Fleet"
               className="rounded-3xl shadow-2xl w-full object-cover h-[400px]"
             />
@@ -131,10 +132,10 @@ const Home = () => {
             Our Vehicle Categories
           </h2>
           <p className="text-slate-600 dark:text-slate-400">
-            A comprehensive fleet of well-maintained vehicles suitable for any occasion and road condition.
+            MAA Travels offers a comprehensive range of well-maintained vehicles, ensuring comfort and safety for every journey. Whether it's corporate travel, city trips, or outstation adventures, our fleet is equipped to meet your needs with reliability and professionalism.
           </p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {categories.map((cat, idx) => (
             <div key={idx} className="glass-card rounded-3xl overflow-hidden group shadow-lg hover:shadow-2xl transition-all duration-300">
               <div className="relative h-48 overflow-hidden">
@@ -154,14 +155,77 @@ const Home = () => {
       </section>
 
       {/* Corporate Clients Logos placeholder */}
-      <section className="bg-slate-100 dark:bg-slate-850/40 py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-8">
-          <span className="text-xs uppercase tracking-widest text-slate-500 font-bold">Trusted by Top Corporate Employers</span>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 items-center justify-items-center opacity-65">
-            <span className="text-lg font-bold text-slate-400">TECH LABS CORP</span>
-            <span className="text-lg font-bold text-slate-400">GLOBAL IND. GROUP</span>
-            <span className="text-lg font-bold text-slate-400">FINANCE PARTNERS</span>
-            <span className="text-lg font-bold text-slate-400">KOLKATA BPO INFO</span>
+      <section className="bg-slate-100 dark:bg-slate-900/40 py-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+          {/* Heading */}
+          <div className="text-center mb-10">
+            <span className="text-xs uppercase tracking-[0.3em] text-primary-600 font-bold">
+              Trusted by Top Corporate Clients
+            </span>
+
+            <h2 className="mt-3 text-3xl sm:text-4xl font-extrabold text-slate-800 dark:text-white">
+              Our Clients
+            </h2>
+          </div>
+
+          {/* Client Logos */}
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-8">
+
+            <div className="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-md hover:shadow-xl transition-all duration-300 flex flex-col items-center text-center group">
+              <img
+                className="w-20 h-20 object-contain mb-4 group-hover:scale-110 transition-transform duration-300"
+                src="/br_logo.png"
+                alt="Bridge and Roof Company India Limited"
+              />
+              <h3 className="text-sm font-semibold text-slate-700 dark:text-white">
+                Bridge & Roof Co.
+              </h3>
+            </div>
+
+            <div className="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-md hover:shadow-xl transition-all duration-300 flex flex-col items-center text-center group">
+              <img
+                className="w-20 h-20 object-contain mb-4 group-hover:scale-110 transition-transform duration-300"
+                src="/thy_logo.png"
+                alt="thyssen"
+              />
+              <h3 className="text-sm font-semibold text-slate-700 dark:text-white">
+                Thyssenkrupp Industries India
+              </h3>
+            </div>
+
+            <div className="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-md hover:shadow-xl transition-all duration-300 flex flex-col items-center text-center group">
+              <img
+                className="w-20 h-20 object-contain mb-4 group-hover:scale-110 transition-transform duration-300"
+                src="/Ther_logo.png"
+                alt="Thermax"
+              />
+              <h3 className="text-sm font-semibold text-slate-700 dark:text-white">
+                Thermax Limited
+              </h3>
+            </div>
+
+            <div className="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-md hover:shadow-xl transition-all duration-300 flex flex-col items-center text-center group">
+              <img
+                className="w-20 h-20 object-contain mb-4 group-hover:scale-110 transition-transform duration-300"
+                src="/ons_logo.jpg"
+                alt="onshore construction company"
+              />
+              <h3 className="text-sm font-semibold text-slate-700 dark:text-white">
+                Onshore construction company
+              </h3>
+            </div>
+            <div className="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-md hover:shadow-xl transition-all duration-300 flex flex-col items-center text-center group">
+              <img
+                className="w-20 h-20 object-contain mb-4 group-hover:scale-110 transition-transform duration-300"
+                src="/toyo_logo.jpg"
+                alt="Toyo Engineering"
+              />
+              <h3 className="text-sm font-semibold text-slate-700 dark:text-white">
+                Toyo Engineering
+              </h3>
+            </div>
+
           </div>
         </div>
       </section>
@@ -186,7 +250,7 @@ const Home = () => {
               <span className="text-xs text-slate-500">Facilities Manager, Tech Labs Corp</span>
             </div>
           </div>
-          
+
           <div className="glass-card p-8 rounded-3xl space-y-6">
             <div className="flex text-amber-500 space-x-1">
               {[...Array(5)].map((_, i) => <Star key={i} size={16} fill="currentColor" />)}

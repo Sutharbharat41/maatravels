@@ -10,7 +10,7 @@ const About = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-24">
-      
+
       {/* Intro Header */}
       <section className="text-center max-w-3xl mx-auto space-y-6">
         <span className="text-xs uppercase tracking-widest text-primary-600 dark:text-primary-400 font-extrabold bg-primary-50 dark:bg-primary-950/20 px-3.5 py-1.5 rounded-full">
@@ -83,7 +83,7 @@ const About = () => {
         </div>
         <div className="lg:col-span-5">
           <img
-            src="https://images.unsplash.com/photo-1516574187841-cb9cc2ca948b?auto=format&fit=crop&q=80&w=700"
+            src="/Quality.png"
             alt="Safety Assured Fleet"
             className="rounded-3xl shadow-xl w-full object-cover h-[350px]"
           />

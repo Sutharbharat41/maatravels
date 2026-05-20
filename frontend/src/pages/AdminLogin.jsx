@@ -44,21 +44,25 @@ const AdminLogin = () => {
   return (
     <div className="min-h-[80vh] flex items-center justify-center px-4 py-12 bg-slate-50 dark:bg-slate-900 transition-colors">
       <div className="relative w-full max-w-md">
-        
+
         {/* Glow behind card */}
         <div className="absolute -inset-1 rounded-3xl bg-gradient-to-r from-primary-600 to-indigo-500 blur-lg opacity-30 dark:opacity-20"></div>
-        
+
         <div className="relative glass-card p-8 sm:p-10 rounded-3xl shadow-2xl space-y-8">
-          
+
           {/* Header */}
           <div className="flex flex-col items-center space-y-3">
-            <div className="p-3 bg-primary-600 rounded-2xl text-white shadow-lg shadow-primary-500/20">
-              <Car size={28} />
+            <div className="flex items-center justify-center">
+              <img
+                src="/LOGO_MAIN.png"
+                alt="MAA TRAVELS Logo"
+                className="w-20 h-20 object-contain rounded-2xl border-4 border-primary-500/10 shadow-xl shadow-primary-500/20"
+              />
             </div>
             <div className="text-center">
-              <h2 className="text-2xl font-extrabold text-slate-800 dark:text-white tracking-tight">Admin Console</h2>
+              <h2 className="text-2xl font-extrabold text-slate-800 dark:text-white tracking-tight">Admin Login</h2>
               <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 font-semibold uppercase tracking-widest">
-                MAA Travels Portal
+                Welcome to MAA TRAVELS
               </p>
             </div>
           </div>
@@ -86,7 +90,7 @@ const AdminLogin = () => {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="admin@maatravels.com"
+                  placeholder="Valid email address"
                   className="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-white/50 dark:bg-slate-900/50 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 text-slate-800 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-600"
                 />
               </div>

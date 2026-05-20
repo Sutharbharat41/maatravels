@@ -7,12 +7,12 @@ const Fleet = () => {
   const [vehicles, setVehicles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  
+
   // Filters state
   const [search, setSearch] = useState('');
   const [type, setType] = useState('');
   const [acStatus, setAcStatus] = useState('');
-  
+
   const navigate = useNavigate();
 
   const fetchVehicles = async () => {
@@ -46,10 +46,10 @@ const Fleet = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-12">
-      
+
       {/* Page Header */}
       <div className="text-center max-w-3xl mx-auto space-y-4">
-        <h1 className="text-4xl sm:text-5xl font-extrabold text-slate-800 dark:text-white tracking-tight">Our Premium Fleet</h1>
+        <h1 className="text-4xl sm:text-5xl font-extrabold text-slate-800 dark:text-white tracking-tight">Our Premium Vehicles</h1>
         <p className="text-base sm:text-lg text-slate-600 dark:text-slate-400 font-light">
           Browse and filter our diverse range of fully compliance-ready owned vehicles. Clean interiors, strict service schedules, and full insurance coverage.
         </p>
@@ -57,7 +57,7 @@ const Fleet = () => {
 
       {/* Filter Toolbar */}
       <div className="glass-card p-6 rounded-3xl grid grid-cols-1 md:grid-cols-3 gap-6 shadow-md">
-        
+
         {/* Search */}
         <div>
           <label className="block text-xs font-bold uppercase text-slate-500 mb-2">Search Fleet</label>
@@ -127,7 +127,7 @@ const Fleet = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {vehicles.map((vehicle) => (
             <div key={vehicle.id} className="glass-card rounded-3xl overflow-hidden shadow-lg flex flex-col justify-between hover:shadow-2xl transition-all duration-300">
-              
+
               {/* Image & Badges */}
               <div className="relative h-48 sm:h-52 bg-slate-100 dark:bg-slate-800 overflow-hidden">
                 <img
@@ -135,7 +135,7 @@ const Fleet = () => {
                   alt={vehicle.name}
                   className="w-full h-full object-cover"
                 />
-                
+
                 {/* Availability Badge */}
                 <div className="absolute top-4 right-4">
                   {vehicle.availability ? (
@@ -206,11 +206,10 @@ const Fleet = () => {
                   <button
                     disabled={!vehicle.availability}
                     onClick={() => handleBookNow(vehicle)}
-                    className={`w-full py-3 rounded-xl font-bold text-xs uppercase tracking-wider transition-all duration-300 shadow-md ${
-                      vehicle.availability
+                    className={`w-full py-3 rounded-xl font-bold text-xs uppercase tracking-wider transition-all duration-300 shadow-md ${vehicle.availability
                         ? 'bg-primary-600 hover:bg-primary-700 text-white btn-premium'
                         : 'bg-slate-200 dark:bg-slate-800 text-slate-400 cursor-not-allowed shadow-none'
-                    }`}
+                      }`}
                   >
                     {vehicle.availability ? 'Book Now' : 'Out of Service'}
                   </button>
