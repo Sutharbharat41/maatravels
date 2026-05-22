@@ -2,8 +2,18 @@ const fs = require('fs');
 const path = require('path');
 const AdmZip = require('adm-zip');
 const { PDFDocument, rgb, StandardFonts } = require('pdf-lib');
-const { Document, Packer, Paragraph, TextRun, Table, TableRow, TableCell, BorderStyle, WidthType, AlignmentType } = require('docx');
+const { Document, Packer, Paragraph, TextRun, Table, TableRow, TableCell, BorderStyle, WidthType, AlignmentType, ImageRun } = require('docx');
 const db = require('../services/supabase');
+
+const logoFileName = 'LOGO_MAIN.png';
+const letterheadLogoPath = path.join(__dirname, '..', '..', 'frontend', 'public', logoFileName);
+
+const getLetterheadLogo = () => {
+  if (fs.existsSync(letterheadLogoPath)) {
+    return fs.readFileSync(letterheadLogoPath);
+  }
+  return null;
+};
 
 // Helper: Clean XML tags within placeholders in Word document.xml
 // If MS Word split "{{placeholder}}" into separate XML tags, this strips them
@@ -181,17 +191,57 @@ exports.generateContract = async (req, res) => {
       let page = pdfDoc.addPage([595.28, 841.89]); // A4 Size
       const { width, height } = page.getSize();
       
-      let y = height - 50;
+      const logoBytes = getLetterheadLogo();
+
+let headerX = 50;
+let y = height - 60;
+
+if (logoBytes) {
+  try {
+    const logoImage = await pdfDoc.embedPng(logoBytes);
+
+    // Fixed logo size
+    const maxWidth = 80;
+    const maxHeight = 80;
+
+    const scale = Math.min(
+      maxWidth / logoImage.width,
+      maxHeight / logoImage.height
+    );
+
+    const logoDims = logoImage.scale(scale);
+
+    // Center logo vertically in header
+    const logoY = height - 70 - (logoDims.height / 2);
+
+    page.drawImage(logoImage, {
+      x: 50,
+      y: logoY,
+      width: logoDims.width,
+      height: logoDims.height,
+    });
+
+    // Text starts after logo
+    headerX = 50 + logoDims.width + 20;
+
+  } catch (embedError) {
+    console.warn('Could not embed PDF logo image:', embedError);
+  }
+}
+
 
       // Draw Letterhead Header
-      page.drawText('MAA TRAVELS', { x: 50, y, size: 24, font: fontBold, color: rgb(0.12, 0.23, 0.47) });
-      y -= 15;
-      page.drawText('Professional Vehicle Hiring & Travel Services', { x: 50, y, size: 10, font: font, color: rgb(0.4, 0.4, 0.4) });
+
+      page.drawText('MAA TRAVELS', { x: headerX, y, size: 24, font: fontBold, color: rgb(0.12, 0.23, 0.47) });
+      y -= 18;
+      page.drawText('Professional Vehicle Hiring & Travel Services', { x: headerX, y, size: 10, font: font, color: rgb(0.4, 0.4, 0.4) });
       y -= 12;
-      page.drawText('Address: 12, N.S. Road, Kolkata - 700001  |  Mobile: +91 98300 98300  |  Email: contact@maatravels.com', { x: 50, y, size: 8.5, font: font, color: rgb(0.4, 0.4, 0.4) });
+      page.drawText('Address: 2/68 SHREEJI TENAMENT NR CK PRAJAPATI SCHOOL GORWA VADODARA-390016 GUJARAT', { x: headerX, y, size: 8.5, font: font, color: rgb(0.4, 0.4, 0.4) });
+      y -= 12;
+      page.drawText('Mobile: +91 9925223472  |  Email: kanuvaghela486@gmail.com', { x: headerX, y, size: 8.5, font: font, color: rgb(0.4, 0.4, 0.4) });
       
       // Horizontal Line
-      y -= 15;
+      y -= 18;
       page.drawLine({
         start: { x: 50, y },
         end: { x: width - 50, y },
@@ -265,7 +315,7 @@ exports.generateContract = async (req, res) => {
       y = drawParagraphText(payment_terms, y - 15);
 
       // Signatures
-      y = 120;
+      y = 60;
       page.drawLine({ start: { x: 50, y }, end: { x: 180, y }, thickness: 1 });
       page.drawLine({ start: { x: width - 180, y }, end: { x: width - 50, y }, thickness: 1 });
       y -= 15;
@@ -315,99 +365,116 @@ exports.generateContract = async (req, res) => {
 
       // If no template is uploaded, or replacement fails, build from scratch using docx library
       if (!docxBuffer) {
+        const logoBytes = getLetterheadLogo();
+        const docChildren = [];
+
+        if (logoBytes) {
+          docChildren.push(new Paragraph({
+            children: [
+              new ImageRun({
+                data: logoBytes,
+                transformation: { width: 120, height: 60 },
+              }),
+            ],
+          }));
+          docChildren.push(new Paragraph({ text: '' }));
+        }
+
+        docChildren.push(
+          new Paragraph({
+            children: [
+              new TextRun({ text: 'MAA TRAVELS', bold: true, size: 36, color: '1A365D' }),
+            ],
+          }),
+          new Paragraph({
+            children: [
+              new TextRun({ text: 'Professional Vehicle Hiring Services for Corporate & Personal Travel', italics: true, size: 20 }),
+            ],
+          }),
+          new Paragraph({
+            children: [
+              new TextRun({ text: 'Address: 12, N.S. Road, Kolkata - 700001  |  Mobile: +91 98300 98300  |  Email: contact@maatravels.com', size: 17, color: '555555' }),
+            ],
+          }),
+          new Paragraph({ text: '' }),
+          new Paragraph({
+            alignment: AlignmentType.CENTER,
+            children: [
+              new TextRun({ text: 'VEHICLE HIRE CONTRACT AGREEMENT', bold: true, size: 28, underline: {} }),
+            ],
+          }),
+          new Paragraph({ text: '' }),
+          new Paragraph({
+            children: [
+              new TextRun({ text: `Date: ${new Date().toLocaleDateString()}`, bold: true }),
+            ]
+          }),
+          new Paragraph({ text: '' }),
+          new Paragraph({
+            children: [
+              new TextRun({ text: 'CLIENT / CONTRACTOR DETAILS', bold: true, color: '1A365D' })
+            ]
+          }),
+          new Paragraph({ children: [new TextRun({ text: `Client Name: ${client_name}` })] }),
+          new Paragraph({ children: [new TextRun({ text: `Address: ${address}` })] }),
+          new Paragraph({ children: [new TextRun({ text: `PAN Number: ${pan}   |   GST: ${gst || 'N/A'}` })] }),
+          new Paragraph({ text: '' }),
+          new Paragraph({
+            children: [
+              new TextRun({ text: 'VEHICLE DETAILS', bold: true, color: '1A365D' })
+            ]
+          }),
+          new Paragraph({ children: [new TextRun({ text: `Vehicle: ${vehicle_name} (${vehicle_no})` })] }),
+          new Paragraph({ children: [new TextRun({ text: `RC Number: ${rc_number || 'N/A'}   |   Insurance: ${insurance_details || 'N/A'}` })] }),
+          new Paragraph({ children: [new TextRun({ text: `Duration of Contract: ${contract_duration || '12 Months'}` })] }),
+          new Paragraph({ children: [new TextRun({ text: `Hire Rate / Terms: ${rates}`, bold: true })] }),
+          new Paragraph({ text: '' }),
+          new Paragraph({
+            children: [
+              new TextRun({ text: 'CLIENT BANK DETAILS', bold: true, color: '1A365D' })
+            ]
+          }),
+          new Paragraph({ children: [new TextRun({ text: `Bank Name: ${bank_name || 'N/A'}` })] }),
+          new Paragraph({ children: [new TextRun({ text: `Account Holder Name: ${bank_holder_name || 'N/A'}` })] }),
+          new Paragraph({ children: [new TextRun({ text: `Account Number: ${bank_account_number || 'N/A'}` })] }),
+          new Paragraph({ children: [new TextRun({ text: `IFSC Code: ${bank_ifsc || 'N/A'}` })] }),
+          new Paragraph({ text: '' }),
+          new Paragraph({
+            children: [
+              new TextRun({ text: 'TERMS & CONDITIONS', bold: true, color: '1A365D' })
+            ]
+          }),
+          new Paragraph({ children: [new TextRun({ text: terms_conditions })] }),
+          new Paragraph({ text: '' }),
+          new Paragraph({
+            children: [
+              new TextRun({ text: 'PAYMENT TERMS', bold: true, color: '1A365D' })
+            ]
+          }),
+          new Paragraph({ children: [new TextRun({ text: payment_terms })] }),
+          new Paragraph({ text: '' }),
+          new Paragraph({ text: '' }),
+          new Paragraph({
+            children: [
+              new TextRun({ text: '_____________________                 _____________________', bold: true })
+            ]
+          }),
+          new Paragraph({
+            children: [
+              new TextRun({ text: 'Authorized Signatory                                   Client Signature', bold: true })
+            ]
+          }),
+          new Paragraph({
+            children: [
+              new TextRun({ text: 'MAA TRAVELS                                                ' + client_name })
+            ]
+          }),
+        );
+
         const doc = new Document({
           sections: [{
             properties: {},
-            children: [
-              new Paragraph({
-                children: [
-                  new TextRun({ text: 'MAA TRAVELS', bold: true, size: 36, color: '1A365D' }),
-                ],
-              }),
-              new Paragraph({
-                children: [
-                  new TextRun({ text: 'Professional Vehicle Hiring Services for Corporate & Personal Travel', italics: true, size: 20 }),
-                ],
-              }),
-              new Paragraph({
-                children: [
-                  new TextRun({ text: 'Address: 12, N.S. Road, Kolkata - 700001  |  Mobile: +91 98300 98300  |  Email: contact@maatravels.com', size: 17, color: '555555' }),
-                ],
-              }),
-              new Paragraph({ text: '' }),
-              new Paragraph({
-                alignment: AlignmentType.CENTER,
-                children: [
-                  new TextRun({ text: 'VEHICLE HIRE CONTRACT AGREEMENT', bold: true, size: 28, underline: {} }),
-                ],
-              }),
-              new Paragraph({ text: '' }),
-              new Paragraph({
-                children: [
-                  new TextRun({ text: `Date: ${new Date().toLocaleDateString()}`, bold: true }),
-                ]
-              }),
-              new Paragraph({ text: '' }),
-              new Paragraph({
-                children: [
-                  new TextRun({ text: 'CLIENT / CONTRACTOR DETAILS', bold: true, color: '1A365D' })
-                ]
-              }),
-              new Paragraph({ children: [new TextRun({ text: `Client Name: ${client_name}` })] }),
-              new Paragraph({ children: [new TextRun({ text: `Address: ${address}` })] }),
-              new Paragraph({ children: [new TextRun({ text: `PAN Number: ${pan}   |   GST: ${gst || 'N/A'}` })] }),
-              new Paragraph({ text: '' }),
-              new Paragraph({
-                children: [
-                  new TextRun({ text: 'VEHICLE DETAILS', bold: true, color: '1A365D' })
-                ]
-              }),
-              new Paragraph({ children: [new TextRun({ text: `Vehicle: ${vehicle_name} (${vehicle_no})` })] }),
-              new Paragraph({ children: [new TextRun({ text: `RC Number: ${rc_number || 'N/A'}   |   Insurance: ${insurance_details || 'N/A'}` })] }),
-              new Paragraph({ children: [new TextRun({ text: `Duration of Contract: ${contract_duration || '12 Months'}` })] }),
-              new Paragraph({ children: [new TextRun({ text: `Hire Rate / Terms: ${rates}`, bold: true })] }),
-              new Paragraph({ text: '' }),
-              new Paragraph({
-                children: [
-                  new TextRun({ text: 'CLIENT BANK DETAILS', bold: true, color: '1A365D' })
-                ]
-              }),
-              new Paragraph({ children: [new TextRun({ text: `Bank Name: ${bank_name || 'N/A'}` })] }),
-              new Paragraph({ children: [new TextRun({ text: `Account Holder Name: ${bank_holder_name || 'N/A'}` })] }),
-              new Paragraph({ children: [new TextRun({ text: `Account Number: ${bank_account_number || 'N/A'}` })] }),
-              new Paragraph({ children: [new TextRun({ text: `IFSC Code: ${bank_ifsc || 'N/A'}` })] }),
-              new Paragraph({ text: '' }),
-              new Paragraph({
-                children: [
-                  new TextRun({ text: 'TERMS & CONDITIONS', bold: true, color: '1A365D' })
-                ]
-              }),
-              new Paragraph({ children: [new TextRun({ text: terms_conditions })] }),
-              new Paragraph({ text: '' }),
-              new Paragraph({
-                children: [
-                  new TextRun({ text: 'PAYMENT TERMS', bold: true, color: '1A365D' })
-                ]
-              }),
-              new Paragraph({ children: [new TextRun({ text: payment_terms })] }),
-              new Paragraph({ text: '' }),
-              new Paragraph({ text: '' }),
-              new Paragraph({
-                children: [
-                  new TextRun({ text: '_____________________                 _____________________', bold: true })
-                ]
-              }),
-              new Paragraph({
-                children: [
-                  new TextRun({ text: 'Authorized Signatory                                   Client Signature', bold: true })
-                ]
-              }),
-              new Paragraph({
-                children: [
-                  new TextRun({ text: 'MAA TRAVELS                                                ' + client_name })
-                ]
-              }),
-            ],
+            children: docChildren,
           }],
         });
 

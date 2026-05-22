@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+/* import React  , { useState, useEffect } from 'react'; */
+import { useState, useEffect } from 'react';
 import { contractAPI, clientAPI } from '../../services/api';
 import { FileSignature, Upload, Download, RefreshCw, CheckCircle, FileText, FileCode, Check } from 'lucide-react';
 
@@ -418,7 +419,7 @@ const ContractManagement = () => {
                   type="button"
                   disabled={generating}
                   onClick={() => handleGenerate('docx')}
-                  className="flex-1 py-3 bg-indigo-650 hover:bg-indigo-700 text-white font-bold text-xs uppercase tracking-wider rounded-xl transition-all shadow-md flex items-center justify-center space-x-1.5"
+                  className="flex-1 py-3 bg-indigo-500 hover:bg-indigo-700 text-white font-bold text-xs uppercase tracking-wider rounded-xl transition-all shadow-md flex items-center justify-center space-x-1.5"
                 >
                   {generating ? <RefreshCw className="animate-spin" size={14} /> : <FileCode size={14} />}
                   <span>Export Word (.docx)</span>
@@ -427,7 +428,7 @@ const ContractManagement = () => {
                   type="button"
                   disabled={generating}
                   onClick={() => handleGenerate('pdf')}
-                  className="flex-1 py-3 bg-rose-650 hover:bg-rose-700 text-white font-bold text-xs uppercase tracking-wider rounded-xl transition-all shadow-md flex items-center justify-center space-x-1.5"
+                  className="flex-1 py-3 bg-rose-500 hover:bg-rose-700 text-white font-bold text-xs uppercase tracking-wider rounded-xl transition-all shadow-md flex items-center justify-center space-x-1.5"
                 >
                   {generating ? <RefreshCw className="animate-spin" size={14} /> : <FileText size={14} />}
                   <span>Export PDF (.pdf)</span>
